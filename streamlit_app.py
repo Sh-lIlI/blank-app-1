@@ -9,7 +9,7 @@ def load_data():
 
 df = load_data()
 
-st.title("상품 검색 / 정렬 데모")
+st.title("상품 검색")
 
 # ---- 검색어 입력 ----
 query = st.text_input("상품명을 입력하세요 (예: 라면, 김밥, 샌드위치)")
