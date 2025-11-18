@@ -40,7 +40,7 @@ st.subheader("검색 결과")
 left_space, right_buttons = st.columns([6, 4])
 
 with right_buttons:
-    col_low, col_high = st.columns(2)
+    col_high, col_low = st.columns(2)
     with col_high:
         if st.button("가격 높은 순"):
             st.session_state["price_order"] = "desc"
