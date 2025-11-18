@@ -23,7 +23,7 @@ def load_data():
 df = load_data()
 
 st.title("상품 검색")
-
+st.subheader("검색 결과")
 # --- 검색어 입력 ---
 query = st.text_input("상품명을 입력하세요 (예: 라면, 김밥, 샌드위치, 과자)")
 
@@ -46,8 +46,6 @@ with right_buttons:
     with col_low:
         if st.button("가격 낮은 순"):
             st.session_state["price_order"] = "asc"
-
-st.subheader("검색 결과")
 
 # --- 검색 필터 ---
 result = df[df["상품명"].str.contains(query)]
