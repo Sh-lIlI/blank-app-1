@@ -1,43 +1,62 @@
 import streamlit as st
 import pandas as pd
 
+# ---- 데이터 불러오기 ----
 @st.cache_data
 def load_data():
-    df = pd.read_csv("product_1.csv")
+    df = pd.read_csv("products.csv")
     return df
 
 df = load_data()
 
 st.title("상품 검색 / 정렬 데모")
 
-st.write("CSV에 저장된 상품 데이터를 검색하고, 이름·가격 기준으로 정렬하는 예시입니다.")
-
 # ---- 검색어 입력 ----
 query = st.text_input("상품명을 입력하세요 (예: 라면, 김밥, 샌드위치)")
 
-# ---- 정렬 기준 선택 ----
-sort_option = st.radio(
-    "정렬 기준을 선택하세요",
-    ("기본순", "이름 오름차순", "이름 내림차순", "가격 낮은순", "가격 높은순")
-)
+# ---- 세션 상태 초기화 ----
+if "sort_col" not in st.session_state:
+    st.session_state["sort_col"] = None  # "상품명" 또는 "가격"
+if "name_asc" not in st.session_state:
+    st.session_state["name_asc"] = True  # True=오름차순, False=내림차순
+if "price_asc" not in st.session_state:
+    st.session_state["price_asc"] = True
+
+# ---- 정렬 버튼 ----
+col1, col2 = st.columns(2)
+
+with col1:
+    if st.button("이름 정렬"):
+        # 지금 값 토글 → 클릭할 때마다 오름/내림 변경
+        st.session_state["name_asc"] = not st.session_state["name_asc"]
+        st.session_state["sort_col"] = "상품명"
+
+with col2:
+    if st.button("가격 정렬"):
+        st.session_state["price_asc"] = not st.session_state["price_asc"]
+        st.session_state["sort_col"] = "가격"
 
 st.subheader("검색 결과")
 
-# 🔹 검색어가 있을 때만 결과를 보여줌
+# ---- 검색어가 있을 때만 결과 표시 ----
 if query:
     # 부분 일치 검색
     filtered = df[df["상품명"].astype(str).str.contains(query, case=False, na=False)]
 
-    # 정렬 처리
-    if sort_option == "이름 오름차순":
-        filtered = filtered.sort_values(by="상품명", ascending=True)
-    elif sort_option == "이름 내림차순":
-        filtered = filtered.sort_values(by="상품명", ascending=False)
-    elif sort_option == "가격 낮은순":
-        filtered = filtered.sort_values(by="가격", ascending=True)
-    elif sort_option == "가격 높은순":
-        filtered = filtered.sort_values(by="가격", ascending=False)
-    # "기본순"은 정렬 안 함
+    # ---- 정렬 적용 ----
+    sort_col = st.session_state["sort_col"]
+
+    if sort_col == "상품명":
+        filtered = filtered.sort_values(
+            by="상품명",
+            ascending=st.session_state["name_asc"]
+        )
+    elif sort_col == "가격":
+        filtered = filtered.sort_values(
+            by="가격",
+            ascending=st.session_state["price_asc"]
+        )
+    # sort_col 이 None이면 정렬 안 함 (default)
 
     if filtered.empty:
         st.info("조건에 맞는 상품이 없습니다.")
@@ -47,5 +66,4 @@ if query:
             use_container_width=True,
         )
 else:
-    # 아직 검색어가 없으면 안내만 보여주고 리스트는 숨김
     st.info("검색창에 상품명을 입력한 뒤 Enter를 누르면 결과가 표시됩니다.")
