@@ -43,7 +43,7 @@ if query:
         st.info("조건에 맞는 상품이 없습니다.")
     else:
         st.dataframe(
-            filtered[["상품ID", "상품명", "카테고리", "가격"]],
+            filtered[["상품ID", "상품명", "가격"]],
             use_container_width=True,
         )
 else:
