@@ -61,7 +61,10 @@ elif st.session_state["price_order"] == "desc":
 # --- 상품명, 가격만 출력 ---
 result = result[["상품명", "가격"]]
 
+# 인덱스 리셋(혹시 모를 잔여 인덱스 제거)
+result = result.reset_index(drop=True)
 
-# 인덱스 숨기고 정적인 표로 출력
-st.table(result.style.hide_index())
+# ✅ 인덱스(0,1,2...) 숨기고 정적인 표로 출력 (pandas 2.x)
+st.table(result.style.hide(axis="index"))
+
 
