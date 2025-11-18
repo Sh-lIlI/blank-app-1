@@ -12,7 +12,7 @@ df = load_data()
 st.title("상품 검색")
 
 # ---- 검색어 입력 ----
-query = st.text_input("상품명을 입력하세요 (예: 라면, 김밥, 샌드위치)")
+query = st.text_input("상품명을 입력하세요 (예: 라면, 김밥, 샌드위치, 과자)")
 
 # ---- 세션 상태 초기화 ----
 if "sort_col" not in st.session_state:
@@ -62,7 +62,7 @@ if query:
         st.info("조건에 맞는 상품이 없습니다.")
     else:
         st.dataframe(
-            filtered[["상품ID", "상품명", "가격"]],
+            filtered[["상품명", "가격"]],
             use_container_width=True,
         )
 else:
