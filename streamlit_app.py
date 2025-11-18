@@ -13,24 +13,24 @@ st.title("상품 검색")
 # --- 검색어 입력 ---
 query = st.text_input("상품명을 입력하세요 (예: 라면, 김밥, 샌드위치)")
 
-# 검색어 없으면 결과 표시 안 함
+# 검색어 없으면 결과/버튼 둘 다 안 보이게
 if not query:
     st.info("검색어를 입력하면 결과가 표시됩니다.")
     st.stop()
 
 # --- 세션 상태 초기화 (가격 정렬만) ---
-# price_order: None / "asc" / "desc"
 if "price_order" not in st.session_state:
     st.session_state["price_order"] = None
 
-# --- 정렬 버튼 (가격 낮은 순 / 높은 순) ---
-col1, col2 = st.columns(2)
+# --- 정렬 버튼을 오른쪽으로 몰기 ---
+# 앞 컬럼은 여백용, 뒤 두 개에 버튼
+spacer, col_low, col_high = st.columns([6, 1, 1])
 
-with col1:
+with col_low:
     if st.button("가격 낮은 순"):
         st.session_state["price_order"] = "asc"
 
-with col2:
+with col_high:
     if st.button("가격 높은 순"):
         st.session_state["price_order"] = "desc"
 
