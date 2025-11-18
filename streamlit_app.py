@@ -22,6 +22,8 @@ if not query:
 if "price_order" not in st.session_state:
     st.session_state["price_order"] = None
 
+st.subheader("검색 결과")
+
 # --- 정렬 버튼을 오른쪽으로 몰기 ---
 # 앞 컬럼은 여백용, 뒤 두 개에 버튼
 spacer, col_low, col_high = st.columns([6, 1, 1])
@@ -34,7 +36,7 @@ with col_high:
     if st.button("가격 높은 순"):
         st.session_state["price_order"] = "desc"
 
-st.subheader("검색 결과")
+
 
 # --- 검색 필터 ---
 result = df[df["상품명"].str.contains(query)]
