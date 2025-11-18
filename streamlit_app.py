@@ -4,12 +4,15 @@ import pandas as pd
 # 🔹 버튼 간격 줄이기용 CSS
 st.markdown("""
     <style>
-    /* 모든 st.button 간 가로 간격을 조금만 주기 */
+    /* 버튼 간격 조정 */
     div.stButton > button {
         margin-right: 4px;
         margin-left: 4px;
         padding: 0.3rem 0.8rem;
     }
+    /* st.table / st.dataframe 인덱스 숨기기 */
+    thead tr th:first-child {display: none !important;}
+    tbody th {display: none !important;}
     </style>
 """, unsafe_allow_html=True)
 
