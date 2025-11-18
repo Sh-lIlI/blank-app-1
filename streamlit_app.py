@@ -4,7 +4,7 @@ import pandas as pd
 # ---- 데이터 불러오기 ----
 @st.cache_data
 def load_data():
-    df = pd.read_csv("products.csv")
+    df = pd.read_csv("product_1.csv")
     return df
 
 df = load_data()
